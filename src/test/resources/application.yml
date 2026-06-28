@@ -1,0 +1,17 @@
+app:
+  jwt:
+    secret: test-secret-key-must-be-at-least-32-bytes-long-for-hs256
+    expiration-ms: 3600000
+  cors:
+    allowed-origins: http://localhost:5173
+  mail:
+    from: test@maddiewestevents.com
+    coordinator-email: coordinator@maddiewestevents.com
+  coordinator-seed:
+    username: testadmin
+    password: testpass123
+
+spring:
+  mail:
+    host: localhost
+    port: 1025

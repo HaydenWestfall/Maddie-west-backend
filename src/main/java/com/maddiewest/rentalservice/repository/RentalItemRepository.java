@@ -1,0 +1,12 @@
+package com.maddiewest.rentalservice.repository;
+
+import com.maddiewest.rentalservice.document.RentalItem;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import java.util.Collection;
+import java.util.List;
+
+public interface RentalItemRepository extends MongoRepository<RentalItem, String> {
+
+    List<RentalItem> findByIdIn(Collection<String> ids);
+}
