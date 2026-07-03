@@ -17,11 +17,11 @@ public class CoordinatorUserDetailsService implements UserDetailsService {
     private final CoordinatorUserRepository coordinatorUserRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        CoordinatorUser user = coordinatorUserRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Unknown user: " + username));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        CoordinatorUser user = coordinatorUserRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Unknown user: " + email));
 
-        return new User(user.getUsername(), user.getPasswordHash(),
+        return new User(user.getEmail(), "",
                 java.util.List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
     }
 }

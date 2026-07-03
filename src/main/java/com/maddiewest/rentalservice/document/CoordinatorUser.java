@@ -19,9 +19,9 @@ public class CoordinatorUser {
     private String id;
 
     @Indexed(unique = true)
-    private String username;
+    private String email;
 
-    private String passwordHash;
+    private String name;
 
     private String role;
 }

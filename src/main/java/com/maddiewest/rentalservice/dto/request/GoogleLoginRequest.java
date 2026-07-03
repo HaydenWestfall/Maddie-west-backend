@@ -6,11 +6,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginRequest {
+public class GoogleLoginRequest {
 
     @NotBlank
-    private String username;
-
-    @NotBlank
-    private String password;
+    private String idToken;
 }

@@ -1,6 +1,6 @@
 package com.maddiewest.rentalservice.controller;
 
-import com.maddiewest.rentalservice.dto.request.LoginRequest;
+import com.maddiewest.rentalservice.dto.request.GoogleLoginRequest;
 import com.maddiewest.rentalservice.dto.response.ApiResponse;
 import com.maddiewest.rentalservice.dto.response.LoginResponse;
 import com.maddiewest.rentalservice.service.AuthService;
@@ -22,13 +22,14 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/login")
-    @Operation(summary = "Authenticate a user", description = "Validates credentials and returns a JWT for subsequent API calls.")
+    @PostMapping("/google")
+    @Operation(summary = "Authenticate via Google", description = "Verifies a Google ID token and returns a JWT for authorized coordinators.")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Authentication succeeded"),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Invalid credentials")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Invalid Google token"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Account is not an authorized coordinator")
     })
-    public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        return ApiResponse.ok(authService.login(request));
+    public ApiResponse<LoginResponse> loginWithGoogle(@Valid @RequestBody GoogleLoginRequest request) {
+        return ApiResponse.ok(authService.loginWithGoogle(request));
     }
 }

@@ -5,42 +5,36 @@ import com.maddiewest.rentalservice.repository.CoordinatorUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 /**
  * Idempotently seeds an initial coordinator/admin account from
- * {@code COORDINATOR_SEED_USERNAME} / {@code COORDINATOR_SEED_PASSWORD} so the
- * coordinator can log in on first run. Does nothing if that username already exists
- * or if either env var is unset.
+ * {@code COORDINATOR_SEED_EMAIL} so the coordinator can sign in with that
+ * Google account on first run. Does nothing if that email already exists
+ * or the env var is unset.
  */
 @Component
 @RequiredArgsConstructor
 public class CoordinatorSeeder implements CommandLineRunner {
 
     private final CoordinatorUserRepository coordinatorUserRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    @Value("${app.coordinator-seed.username}")
-    private String seedUsername;
+    @Value("${app.coordinator-seed.email:}")
+    private String seedEmail;
 
-    @Value("${app.coordinator-seed.password}")
-    private String seedPassword;
+    @Value("${app.coordinator-seed.name:}")
+    private String seedName;
 
     @Override
     public void run(String... args) {
-        if (!StringUtils.hasText(seedUsername) || !StringUtils.hasText(seedPassword)) {
-            return;
-        }
-
-        if (coordinatorUserRepository.existsByUsername(seedUsername)) {
+        if (!StringUtils.hasText(seedEmail) || coordinatorUserRepository.existsByEmail(seedEmail)) {
             return;
         }
 
         CoordinatorUser user = new CoordinatorUser();
-        user.setUsername(seedUsername);
-        user.setPasswordHash(passwordEncoder.encode(seedPassword));
+        user.setEmail(seedEmail);
+        user.setName(StringUtils.hasText(seedName) ? seedName : seedEmail);
         user.setRole("ADMIN");
         coordinatorUserRepository.save(user);
     }

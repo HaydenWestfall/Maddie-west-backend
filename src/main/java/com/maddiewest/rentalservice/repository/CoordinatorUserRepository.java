@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface CoordinatorUserRepository extends MongoRepository<CoordinatorUser, String> {
 
-    Optional<CoordinatorUser> findByUsername(String username);
+    Optional<CoordinatorUser> findByEmail(String email);
 
-    boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
 }

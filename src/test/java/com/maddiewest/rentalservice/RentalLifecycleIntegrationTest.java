@@ -1,20 +1,22 @@
 package com.maddiewest.rentalservice;
 
-import com.maddiewest.rentalservice.dto.request.LoginRequest;
 import com.maddiewest.rentalservice.dto.request.RentalDateRangeDto;
 import com.maddiewest.rentalservice.dto.request.RentalItemCreateRequest;
 import com.maddiewest.rentalservice.dto.request.RentalRequestCreateRequest;
 import com.maddiewest.rentalservice.dto.request.RentalRequestLineItemDto;
 import com.maddiewest.rentalservice.dto.request.RequesterInfoDto;
 import com.maddiewest.rentalservice.dto.response.ApiResponse;
-import com.maddiewest.rentalservice.dto.response.LoginResponse;
 import com.maddiewest.rentalservice.dto.response.RentalItemResponse;
 import com.maddiewest.rentalservice.dto.response.RentalRequestResponse;
+import com.maddiewest.rentalservice.document.CoordinatorUser;
 import com.maddiewest.rentalservice.document.RentalRequestStatus;
 import com.maddiewest.rentalservice.exception.AvailabilityConflictException;
+import com.maddiewest.rentalservice.repository.CoordinatorUserRepository;
+import com.maddiewest.rentalservice.security.JwtService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -57,6 +59,12 @@ class RentalLifecycleIntegrationTest {
     @LocalServerPort
     private int port;
 
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private CoordinatorUserRepository coordinatorUserRepository;
+
     private TestRestTemplate restTemplate = new TestRestTemplate();
 
     private String authToken;
@@ -67,19 +75,15 @@ class RentalLifecycleIntegrationTest {
 
     @BeforeAll
     void login() {
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("testadmin");
-        loginRequest.setPassword("testpass123");
+        // Auth is Google-only in production; for tests we seed a coordinator
+        // directly and mint a JWT rather than verifying a real Google ID token.
+        CoordinatorUser user = new CoordinatorUser();
+        user.setEmail("testadmin@example.com");
+        user.setName("Test Admin");
+        user.setRole("ADMIN");
+        coordinatorUserRepository.save(user);
 
-        ResponseEntity<ApiResponse<LoginResponse>> response = restTemplate.exchange(
-                baseUrl() + "/api/auth/login",
-                HttpMethod.POST,
-                new HttpEntity<>(loginRequest),
-                new ParameterizedTypeReference<>() {
-                });
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        authToken = response.getBody().getData().getToken();
+        authToken = jwtService.generateToken(user.getEmail(), user.getRole());
         assertThat(authToken).isNotBlank();
     }
 

@@ -13,6 +13,6 @@ public class LoginResponse {
 
     private String token;
     private Instant expiresAt;
-    private String username;
+    private String email;
     private String role;
 }
