@@ -41,7 +41,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * End-to-end lifecycle test: create an item, submit a rental request, approve it
  * (availability drops), attempt to over-approve a conflicting request (409), then
- * cancel the approved request and confirm availability is restored.
+ * mark the approved request as paid and confirm the items remain reserved.
  */
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -149,18 +149,18 @@ class RentalLifecycleIntegrationTest {
         assertThat(conflictResponse.getBody().getData().get(0).itemId()).isEqualTo(itemId);
         assertThat(conflictResponse.getBody().getData().get(0).availableQuantity()).isEqualTo(0);
 
-        // 7. Cancel the first (approved) request, which should restore availability
-        ResponseEntity<ApiResponse<RentalRequestResponse>> cancelResponse = restTemplate.exchange(
-                baseUrl() + "/api/admin/rental-requests/" + requestId + "/cancel",
+        // 7. Mark the first (approved) request as paid once the Venmo payment clears
+        ResponseEntity<ApiResponse<RentalRequestResponse>> markPaidResponse = restTemplate.exchange(
+                baseUrl() + "/api/admin/rental-requests/" + requestId + "/mark-paid",
                 HttpMethod.POST,
                 new HttpEntity<>(authHeaders()),
                 new ParameterizedTypeReference<>() {
                 });
-        assertThat(cancelResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(cancelResponse.getBody().getData().getStatus()).isEqualTo(RentalRequestStatus.CANCELLED);
+        assertThat(markPaidResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(markPaidResponse.getBody().getData().getStatus()).isEqualTo(RentalRequestStatus.PAID);
 
-        // 8. Availability is restored
-        assertThat(availableQuantity(itemId, startDate, endDate)).isEqualTo(2);
+        // 8. A paid request still reserves the items, so availability stays at zero
+        assertThat(availableQuantity(itemId, startDate, endDate)).isEqualTo(0);
     }
 
     private String submitRequest(String itemId, int quantity, LocalDate startDate, LocalDate endDate) {

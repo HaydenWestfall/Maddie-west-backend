@@ -152,20 +152,17 @@ public class RentalRequestService {
     }
 
     /**
-     * Cancels a PENDING or APPROVED request. Cancelling an APPROVED request restores
-     * availability automatically, since CANCELLED requests are excluded from the
-     * reserved-quantity aggregation.
+     * Marks an APPROVED request as PAID once the requester has completed their Venmo
+     * payment. This is a manual confirmation by the coordinator. A PAID request continues
+     * to reserve availability, since the items are still committed to the rental.
      */
-    public RentalRequestResponse cancel(String id, String changedBy) {
+    public RentalRequestResponse markPaid(String id, String changedBy) {
         RentalRequest request = findEntity(id);
-        if (request.getStatus() != RentalRequestStatus.PENDING && request.getStatus() != RentalRequestStatus.APPROVED) {
-            throw new InvalidStatusTransitionException(
-                    "Cannot cancel a request with status " + request.getStatus());
-        }
+        requireStatus(request, RentalRequestStatus.APPROVED, "marked paid");
 
-        request.setStatus(RentalRequestStatus.CANCELLED);
+        request.setStatus(RentalRequestStatus.PAID);
         request.getStatusHistory().add(
-                new StatusHistoryEntry(RentalRequestStatus.CANCELLED, Instant.now(), changedBy, null));
+                new StatusHistoryEntry(RentalRequestStatus.PAID, Instant.now(), changedBy, null));
         return rentalRequestMapper.toResponse(rentalRequestRepository.save(request));
     }
 

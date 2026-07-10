@@ -62,9 +62,9 @@ public class AdminRentalRequestController {
         return ApiResponse.ok(rentalRequestService.reject(id, request.getReason(), authentication.getName()));
     }
 
-    @PostMapping("/{id}/cancel")
-    @Operation(summary = "Cancel a rental request", description = "Cancels a rental request and records the change in history.")
-    public ApiResponse<RentalRequestResponse> cancel(@PathVariable String id, Authentication authentication) {
-        return ApiResponse.ok(rentalRequestService.cancel(id, authentication.getName()));
+    @PostMapping("/{id}/mark-paid")
+    @Operation(summary = "Mark a rental request as paid", description = "Marks an approved request as paid once the requester has completed their Venmo payment.")
+    public ApiResponse<RentalRequestResponse> markPaid(@PathVariable String id, Authentication authentication) {
+        return ApiResponse.ok(rentalRequestService.markPaid(id, authentication.getName()));
     }
 }

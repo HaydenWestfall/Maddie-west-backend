@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 /**
  * Computes rental item availability for a given date range based on quantities
- * already reserved by APPROVED rental requests whose date range overlaps it.
+ * already reserved by APPROVED or PAID rental requests whose date range overlaps it.
  */
 @Service
 public class AvailabilityService {
@@ -30,15 +30,16 @@ public class AvailabilityService {
     }
 
     /**
-     * Sum of quantities reserved by APPROVED requests overlapping [start, end], keyed by itemId.
-     * Items with no reservations in the range are simply absent from the map.
+     * Sum of quantities reserved by APPROVED or PAID requests overlapping [start, end], keyed by
+     * itemId. Items with no reservations in the range are simply absent from the map.
      */
     public Map<String, Integer> getReservedQuantities(LocalDate start, LocalDate end) {
         return getReservedQuantities(start, end, null);
     }
 
     public Map<String, Integer> getReservedQuantities(LocalDate start, LocalDate end, Collection<String> itemIds) {
-        Criteria matchCriteria = Criteria.where("status").is(RentalRequestStatus.APPROVED)
+        Criteria matchCriteria = Criteria.where("status")
+                .in(RentalRequestStatus.APPROVED, RentalRequestStatus.PAID)
                 .and("dateRange.startDate").lte(end)
                 .and("dateRange.endDate").gte(start);
 
