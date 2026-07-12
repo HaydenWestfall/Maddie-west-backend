@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.maddiewest</groupId>
-    <artifactId>rental-service</artifactId>
+    <artifactId>maddie-west-events-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>rental-service</name>
-    <description>Rental inventory and request management service for Maddie West Events</description>
+    <name>maddie-west-events-backend</name>
+    <description>Backend for Maddie West Events: rental inventory, request approval workflow, and the website contact form</description>
 
     <properties>
         <java.version>21</java.version>

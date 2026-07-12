@@ -40,20 +40,29 @@
             <tr th:each="item : ${request.items}">
                 <td style="padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${item.itemName}"></td>
                 <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${item.quantity}"></td>
-                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + item.pricePerItem}"></td>
-                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + item.subtotal}"></td>
+                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + #numbers.formatDecimal(item.pricePerItem, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + #numbers.formatDecimal(item.subtotal, 1, 'COMMA', 2, 'POINT')}"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="3" style="text-align: right; padding: 6px 10px; font-weight: bold;">Total</td>
-                <td style="text-align: right; padding: 6px 10px; font-weight: bold;" th:text="${'$' + request.totalPrice}"></td>
+                <td style="text-align: right; padding: 6px 10px; font-weight: bold;" th:text="${'$' + #numbers.formatDecimal(request.totalPrice, 1, 'COMMA', 2, 'POINT')}"></td>
             </tr>
         </tfoot>
     </table>
 
     <p>Request ID: <span th:text="${request.id}"></span></p>
 
-    <p>Log in to the coordinator dashboard to approve or reject this request.</p>
+    <p style="margin: 24px 0;">
+        <a th:href="${adminRequestUrl}"
+           style="display: inline-block; background-color: #5b3a29; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 6px; font-weight: bold;">
+            Review this request
+        </a>
+    </p>
+
+    <p style="font-size: 13px; color: #666666;">
+        This opens the request in the admin dashboard, where you can approve or deny it.
+    </p>
 </body>
 </html>

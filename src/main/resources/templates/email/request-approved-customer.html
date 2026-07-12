@@ -32,20 +32,40 @@
             <tr th:each="item : ${request.items}">
                 <td style="padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${item.itemName}"></td>
                 <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${item.quantity}"></td>
-                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + item.pricePerItem}"></td>
-                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + item.subtotal}"></td>
+                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + #numbers.formatDecimal(item.pricePerItem, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + #numbers.formatDecimal(item.subtotal, 1, 'COMMA', 2, 'POINT')}"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="3" style="text-align: right; padding: 6px 10px; font-weight: bold;">Total</td>
-                <td style="text-align: right; padding: 6px 10px; font-weight: bold;" th:text="${'$' + request.totalPrice}"></td>
+                <td style="text-align: right; padding: 6px 10px; font-weight: bold;" th:text="${'$' + #numbers.formatDecimal(request.totalPrice, 1, 'COMMA', 2, 'POINT')}"></td>
             </tr>
         </tfoot>
     </table>
 
     <p>Request ID: <span th:text="${request.id}"></span></p>
 
-    <p>We look forward to making your event special!</p>
+    <div style="margin-top: 24px; padding: 16px 20px; background-color: #f5efe9; border-radius: 6px;">
+        <h3 style="margin-top: 0; color: #5b3a29;">Next step: payment</h3>
+        <p>
+            To confirm your reservation, please send payment of
+            <strong th:text="${'$' + #numbers.formatDecimal(request.totalPrice, 1, 'COMMA', 2, 'POINT')}"></strong> via Venmo to
+            <strong th:text="${'@' + venmoUsername}"></strong>.
+        </p>
+        <p style="margin: 20px 0;">
+            <a th:href="${venmoLink}"
+               style="display: inline-block; background-color: #3d95ce; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 6px; font-weight: bold;">
+                Pay with Venmo
+            </a>
+        </p>
+        <p style="font-size: 13px; color: #666666; margin-bottom: 0;">
+            If the button doesn't open Venmo, open the Venmo app and send your payment to
+            <strong th:text="${'@' + venmoUsername}"></strong>. Please include your Request ID
+            (<span th:text="${request.id}"></span>) in the payment note so we can match it to your reservation.
+        </p>
+    </div>
+
+    <p style="margin-top: 24px;">We look forward to making your event special!</p>
 </body>
 </html>

@@ -16,11 +16,11 @@ public class OpenApiConfig {
     private static final String BEARER_AUTH = "bearerAuth";
 
     @Bean
-    public OpenAPI rentalServiceOpenApi() {
+    public OpenAPI maddieWestEventsOpenApi() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Rental Service API")
-                        .description("Comprehensive API documentation for the rental inventory, availability, and request approval workflow used by Maddie West Events.")
+                        .title("Maddie West Events API")
+                        .description("Comprehensive API documentation for the Maddie West Events backend: rental inventory, availability, request approval workflow, and the website contact form.")
                         .version("v1")
                         .contact(new Contact()
                                 .name("Maddie West Events")

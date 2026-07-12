@@ -35,14 +35,14 @@
             <tr th:each="item : ${request.items}">
                 <td style="padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${item.itemName}"></td>
                 <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${item.quantity}"></td>
-                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + item.pricePerItem}"></td>
-                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + item.subtotal}"></td>
+                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + #numbers.formatDecimal(item.pricePerItem, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td style="text-align: right; padding: 6px 10px; border: 1px solid #e0d8d0;" th:text="${'$' + #numbers.formatDecimal(item.subtotal, 1, 'COMMA', 2, 'POINT')}"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="3" style="text-align: right; padding: 6px 10px; font-weight: bold;">Total</td>
-                <td style="text-align: right; padding: 6px 10px; font-weight: bold;" th:text="${'$' + request.totalPrice}"></td>
+                <td style="text-align: right; padding: 6px 10px; font-weight: bold;" th:text="${'$' + #numbers.formatDecimal(request.totalPrice, 1, 'COMMA', 2, 'POINT')}"></td>
             </tr>
         </tfoot>
     </table>

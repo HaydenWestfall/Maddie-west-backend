@@ -1,8 +1,8 @@
-# rental-service
+# maddie-west-events-backend
 
-Spring Boot microservice for managing wedding rental inventory (arbors, vases, tablecloths, etc.), customer rental requests, and the coordinator approval workflow for Maddie West Events.
+Spring Boot backend for Maddie West Events: wedding rental inventory (arbors, vases, tablecloths, etc.), customer rental requests, the coordinator approval workflow, and the public website contact form.
 
-This is a separate service from `madd-west-events-backend` (Node/Express). It uses its own MongoDB database so it isn't coupled to the Node service's Mongoose schemas, though it can run against the same Mongo instance (see `../database/docker-compose.yml`).
+This is the canonical Maddie West Events backend (it replaces the earlier `madd-west-events-backend` Node/Express service). It uses its own MongoDB database, though it can run against the same Mongo instance (see `../database/docker-compose.yml`).
 
 ## Requirements
 
