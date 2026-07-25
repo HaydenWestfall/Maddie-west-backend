@@ -8,6 +8,7 @@ import com.maddiewest.rentalservice.exception.ResourceNotFoundException;
 import com.maddiewest.rentalservice.mapper.RentalItemMapper;
 import com.maddiewest.rentalservice.repository.RentalItemRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RentalItemService {
@@ -114,19 +116,24 @@ public class RentalItemService {
 
     public RentalItemResponse create(RentalItemCreateRequest request) {
         RentalItem item = rentalItemMapper.toDocument(request);
-        return rentalItemMapper.toResponse(rentalItemRepository.save(item));
+        RentalItem saved = rentalItemRepository.save(item);
+        log.info("Created rental item {} ({})", saved.getId(), saved.getName());
+        return rentalItemMapper.toResponse(saved);
     }
 
     public RentalItemResponse update(String id, RentalItemUpdateRequest request) {
         RentalItem item = findEntity(id);
         rentalItemMapper.updateDocument(item, request);
-        return rentalItemMapper.toResponse(rentalItemRepository.save(item));
+        RentalItem saved = rentalItemRepository.save(item);
+        log.info("Updated rental item {} ({})", saved.getId(), saved.getName());
+        return rentalItemMapper.toResponse(saved);
     }
 
     public void softDelete(String id) {
         RentalItem item = findEntity(id);
         item.setActive(false);
         rentalItemRepository.save(item);
+        log.info("Deactivated rental item {} ({})", item.getId(), item.getName());
     }
 
     private Query buildActiveQuery(String category, String name) {

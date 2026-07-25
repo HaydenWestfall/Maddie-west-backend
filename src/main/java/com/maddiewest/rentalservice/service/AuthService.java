@@ -9,12 +9,14 @@ import com.maddiewest.rentalservice.exception.AdminAccessDeniedException;
 import com.maddiewest.rentalservice.repository.CoordinatorUserRepository;
 import com.maddiewest.rentalservice.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.security.GeneralSecurityException;
 import java.time.Instant;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -28,20 +30,27 @@ public class AuthService {
         try {
             idToken = googleIdTokenVerifier.verify(request.getIdToken());
         } catch (GeneralSecurityException | java.io.IOException | IllegalArgumentException ex) {
+            log.warn("Google token verification failed: {}", ex.getMessage());
             throw new BadCredentialsException("Invalid Google token");
         }
 
         if (idToken == null) {
+            log.warn("Google token verification returned no payload");
             throw new BadCredentialsException("Invalid Google token");
         }
 
         String email = idToken.getPayload().getEmail();
 
         CoordinatorUser user = coordinatorUserRepository.findByEmail(email)
-                .orElseThrow(() -> new AdminAccessDeniedException("Access denied. Admin account not found."));
+                .orElseThrow(() -> {
+                    log.warn("Login denied for {}: no coordinator account found", email);
+                    return new AdminAccessDeniedException("Access denied. Admin account not found.");
+                });
 
         String token = jwtService.generateToken(user.getEmail(), user.getRole());
         Instant expiresAt = jwtService.getExpiration(token).toInstant();
+
+        log.info("Coordinator {} logged in successfully (role={})", user.getEmail(), user.getRole());
 
         return LoginResponse.builder()
                 .token(token)

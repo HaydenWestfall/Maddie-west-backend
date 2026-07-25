@@ -18,6 +18,7 @@ import com.maddiewest.rentalservice.exception.ResourceNotFoundException;
 import com.maddiewest.rentalservice.mapper.RentalRequestMapper;
 import com.maddiewest.rentalservice.repository.RentalRequestRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.bson.types.Decimal128;
 import org.springframework.data.domain.Page;
@@ -45,6 +46,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RentalRequestService {
@@ -101,6 +103,9 @@ public class RentalRequestService {
 
         RentalRequest saved = rentalRequestRepository.save(rentalRequest);
         RentalRequestResponse response = rentalRequestMapper.toResponse(saved);
+
+        log.info("Rental request {} submitted by {} for {} item(s)",
+                saved.getId(), response.getRequester().getEmail(), lineItems.size());
 
         emailNotificationService.notifyCoordinatorOfNewRequest(response);
         emailNotificationService.sendRequestConfirmation(response);
@@ -264,6 +269,8 @@ public class RentalRequestService {
                 new StatusHistoryEntry(RentalRequestStatus.APPROVED, Instant.now(), changedBy, null));
         RentalRequestResponse response = rentalRequestMapper.toResponse(rentalRequestRepository.save(request));
 
+        log.info("Rental request {} approved by {}", id, changedBy);
+
         emailNotificationService.sendApprovalNotification(response);
 
         return response;
@@ -277,6 +284,8 @@ public class RentalRequestService {
         request.getStatusHistory().add(
                 new StatusHistoryEntry(RentalRequestStatus.REJECTED, Instant.now(), changedBy, reason));
         RentalRequestResponse response = rentalRequestMapper.toResponse(rentalRequestRepository.save(request));
+
+        log.info("Rental request {} rejected by {} (reason: {})", id, changedBy, reason);
 
         emailNotificationService.sendRejectionNotification(response, reason);
 
@@ -295,7 +304,11 @@ public class RentalRequestService {
         request.setStatus(RentalRequestStatus.PAID);
         request.getStatusHistory().add(
                 new StatusHistoryEntry(RentalRequestStatus.PAID, Instant.now(), changedBy, null));
-        return rentalRequestMapper.toResponse(rentalRequestRepository.save(request));
+        RentalRequestResponse response = rentalRequestMapper.toResponse(rentalRequestRepository.save(request));
+
+        log.info("Rental request {} marked paid by {}", id, changedBy);
+
+        return response;
     }
 
     /**
@@ -311,6 +324,8 @@ public class RentalRequestService {
         request.getStatusHistory().add(
                 new StatusHistoryEntry(RentalRequestStatus.CANCELLED, Instant.now(), changedBy, reason));
         RentalRequestResponse response = rentalRequestMapper.toResponse(rentalRequestRepository.save(request));
+
+        log.info("Rental request {} cancelled by {} (reason: {})", id, changedBy, reason);
 
         emailNotificationService.sendCancellationNotification(response, reason);
 

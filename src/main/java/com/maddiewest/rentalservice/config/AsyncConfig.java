@@ -21,6 +21,7 @@ public class AsyncConfig implements AsyncConfigurer {
         executor.setThreadNamePrefix("async-email-");
         executor.setWaitForTasksToCompleteOnShutdown(true);
         executor.setAwaitTerminationSeconds(10);
+        executor.setTaskDecorator(new MdcTaskDecorator());
         executor.initialize();
         return executor;
     }

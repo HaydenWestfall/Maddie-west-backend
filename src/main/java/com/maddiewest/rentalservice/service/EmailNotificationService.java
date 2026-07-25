@@ -130,6 +130,7 @@ public class EmailNotificationService {
             helper.setSubject(subject);
             helper.setText(html, true);
             mailSender.send(message);
+            log.info("Sent '{}' email to {}", subject, to);
         } catch (Exception ex) {
             log.error("Failed to send '{}' email to {}", subject, to, ex);
         }
