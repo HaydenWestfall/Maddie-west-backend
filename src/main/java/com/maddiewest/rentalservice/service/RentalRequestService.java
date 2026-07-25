@@ -1,5 +1,6 @@
 package com.maddiewest.rentalservice.service;
 
+import com.maddiewest.rentalservice.document.AgreementAcknowledgment;
 import com.maddiewest.rentalservice.document.RentalDateRange;
 import com.maddiewest.rentalservice.document.RentalItem;
 import com.maddiewest.rentalservice.document.RentalRequest;
@@ -89,6 +90,11 @@ public class RentalRequestService {
                 request.getRequester().getEmail(),
                 request.getRequester().getPhone(),
                 request.getRequester().getNotes()));
+        rentalRequest.setAgreement(new AgreementAcknowledgment(
+                true,
+                request.getAgreement().getSignatureName().trim(),
+                request.getAgreement().getAgreementVersion(),
+                Instant.now()));
         rentalRequest.setStatus(RentalRequestStatus.PENDING);
         rentalRequest.getStatusHistory().add(
                 new StatusHistoryEntry(RentalRequestStatus.PENDING, Instant.now(), "system", null));
@@ -146,7 +152,7 @@ public class RentalRequestService {
     }
 
     private Sort resolveSort(RentalRequestSearchCriteria criteria) {
-        String field = SORT_FIELDS.getOrDefault(criteria.getSort(), "createdAt");
+        String field = criteria.getSort() != null ? SORT_FIELDS.getOrDefault(criteria.getSort(), "createdAt") : "createdAt";
         Sort.Direction direction = "asc".equalsIgnoreCase(criteria.getDirection())
                 ? Sort.Direction.ASC
                 : Sort.Direction.DESC;

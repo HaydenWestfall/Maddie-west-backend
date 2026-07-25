@@ -1,5 +1,6 @@
 package com.maddiewest.rentalservice;
 
+import com.maddiewest.rentalservice.dto.request.AgreementAcknowledgmentDto;
 import com.maddiewest.rentalservice.dto.request.RentalDateRangeDto;
 import com.maddiewest.rentalservice.dto.request.RentalItemCreateRequest;
 import com.maddiewest.rentalservice.dto.request.RentalRequestCreateRequest;
@@ -8,6 +9,7 @@ import com.maddiewest.rentalservice.dto.request.RequesterInfoDto;
 import com.maddiewest.rentalservice.dto.response.ApiResponse;
 import com.maddiewest.rentalservice.dto.response.RentalItemResponse;
 import com.maddiewest.rentalservice.dto.response.RentalRequestResponse;
+import com.maddiewest.rentalservice.document.AgreementAcknowledgment;
 import com.maddiewest.rentalservice.document.CoordinatorUser;
 import com.maddiewest.rentalservice.document.RentalRequestStatus;
 import com.maddiewest.rentalservice.exception.AvailabilityConflictException;
@@ -181,6 +183,7 @@ class RentalLifecycleIntegrationTest {
         createRequest.setItems(List.of(lineItem));
         createRequest.setDateRange(dateRange);
         createRequest.setRequester(requester);
+        createRequest.setAgreement(acknowledgedAgreement());
 
         ResponseEntity<ApiResponse<RentalRequestResponse>> response = restTemplate.exchange(
                 baseUrl() + "/api/rental-requests",
@@ -189,7 +192,53 @@ class RentalLifecycleIntegrationTest {
                 new ParameterizedTypeReference<>() {
                 });
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+
+        // The rental agreement acknowledgment is captured at submission and stamped server-side.
+        AgreementAcknowledgment agreement = response.getBody().getData().getAgreement();
+        assertThat(agreement).isNotNull();
+        assertThat(agreement.isAcknowledged()).isTrue();
+        assertThat(agreement.getSignatureName()).isEqualTo("Test Requester");
+        assertThat(agreement.getAgreementVersion()).isEqualTo("2026-07-01");
+        assertThat(agreement.getAcknowledgedAt()).isNotNull();
+
         return response.getBody().getData().getId();
+    }
+
+    private AgreementAcknowledgmentDto acknowledgedAgreement() {
+        AgreementAcknowledgmentDto agreement = new AgreementAcknowledgmentDto();
+        agreement.setAcknowledged(true);
+        agreement.setSignatureName("Test Requester");
+        agreement.setAgreementVersion("2026-07-01");
+        return agreement;
+    }
+
+    @Test
+    void submitWithoutAgreementIsRejected() {
+        RentalRequestLineItemDto lineItem = new RentalRequestLineItemDto();
+        lineItem.setItemId("000000000000000000000000");
+        lineItem.setQuantity(1);
+
+        RentalDateRangeDto dateRange = new RentalDateRangeDto();
+        dateRange.setStartDate(LocalDate.of(2026, 8, 1));
+        dateRange.setEndDate(LocalDate.of(2026, 8, 2));
+
+        RequesterInfoDto requester = new RequesterInfoDto();
+        requester.setName("No Agreement");
+        requester.setEmail("noagreement@example.com");
+
+        RentalRequestCreateRequest createRequest = new RentalRequestCreateRequest();
+        createRequest.setItems(List.of(lineItem));
+        createRequest.setDateRange(dateRange);
+        createRequest.setRequester(requester);
+        // No agreement set at all -> @NotNull violation -> 400.
+
+        ResponseEntity<ApiResponse<RentalRequestResponse>> response = restTemplate.exchange(
+                baseUrl() + "/api/rental-requests",
+                HttpMethod.POST,
+                new HttpEntity<>(createRequest),
+                new ParameterizedTypeReference<>() {
+                });
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     private int availableQuantity(String itemId, LocalDate startDate, LocalDate endDate) {

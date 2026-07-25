@@ -33,6 +33,8 @@ public class RentalRequest {
 
     private RequesterInfo requester;
 
+    private AgreementAcknowledgment agreement;
+
     private RentalRequestStatus status = RentalRequestStatus.PENDING;
 
     private List<StatusHistoryEntry> statusHistory = new ArrayList<>();

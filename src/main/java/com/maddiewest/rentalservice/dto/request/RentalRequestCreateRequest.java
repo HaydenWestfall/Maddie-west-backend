@@ -23,4 +23,8 @@ public class RentalRequestCreateRequest {
     @NotNull
     @Valid
     private RequesterInfoDto requester;
+
+    @NotNull
+    @Valid
+    private AgreementAcknowledgmentDto agreement;
 }

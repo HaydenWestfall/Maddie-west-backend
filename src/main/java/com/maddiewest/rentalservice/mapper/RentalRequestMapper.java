@@ -26,6 +26,7 @@ public class RentalRequestMapper {
                 .items(items)
                 .dateRange(request.getDateRange())
                 .requester(request.getRequester())
+                .agreement(request.getAgreement())
                 .status(request.getStatus())
                 .statusHistory(request.getStatusHistory())
                 .totalPrice(totalPrice)

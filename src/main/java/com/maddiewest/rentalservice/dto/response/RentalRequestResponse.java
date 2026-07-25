@@ -1,6 +1,7 @@
 package com.maddiewest.rentalservice.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maddiewest.rentalservice.document.AgreementAcknowledgment;
 import com.maddiewest.rentalservice.document.RentalDateRange;
 import com.maddiewest.rentalservice.document.RentalRequestStatus;
 import com.maddiewest.rentalservice.document.RequesterInfo;
@@ -24,6 +25,7 @@ public class RentalRequestResponse {
     private List<RentalRequestLineItemResponse> items;
     private RentalDateRange dateRange;
     private RequesterInfo requester;
+    private AgreementAcknowledgment agreement;
     private RentalRequestStatus status;
     private List<StatusHistoryEntry> statusHistory;
     private BigDecimal totalPrice;
