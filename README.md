@@ -37,6 +37,51 @@ This is the canonical Maddie West Events backend (it replaces the earlier `madd-
 
 3. API docs / Swagger UI: `http://localhost:8081/swagger-ui.html`
 
+## Docker
+
+The image builds the jar itself, so no local JDK or Maven is needed — only Docker.
+
+```bash
+docker build -t maddie-west-events-backend:latest .
+```
+
+It is a multi-stage build: Maven 3.9 / Temurin 21 compiles the jar, the jar is exploded into
+Spring Boot layers, and the result is copied into a `eclipse-temurin:21-jre-jammy` runtime that
+runs as the non-root user `app` (uid 10001). Tests are skipped during the image build because
+the integration test needs a Docker daemon via Testcontainers — run `mvn verify` separately.
+
+Run the whole stack (app + MongoDB) with Compose, which reads the same `.env` file:
+
+```bash
+docker compose up --build
+```
+
+Or run the image against an existing Mongo. Configuration is environment-only; `.env` is
+deliberately excluded from the build context so no secret is ever baked into an image:
+
+```bash
+docker run --rm -p 8081:8081 \
+  -e MONGODB_URI='mongodb://host.docker.internal:27017/rental-service' \
+  -e JWT_SECRET='<long random string>' \
+  -e GOOGLE_CLIENT_ID='<google oauth client id>' \
+  -e COORDINATOR_NOTIFICATION_EMAIL='coordinator@maddiewestevents.com' \
+  maddie-west-events-backend:latest
+```
+
+`JWT_SECRET`, `GOOGLE_CLIENT_ID`, and `COORDINATOR_NOTIFICATION_EMAIL` have no defaults; the
+app will not start without them.
+
+Notes:
+
+- **Health**: `GET /actuator/health` is unauthenticated and backs the image's `HEALTHCHECK`.
+  It reports `DOWN` (HTTP 503) when MongoDB is unreachable. Kubernetes probes can use
+  `/actuator/health/liveness` and `/actuator/health/readiness`. Only the `health` endpoint is
+  exposed — every other actuator path stays behind authentication.
+- **Memory**: the JVM sizes its heap from the container limit (`-XX:MaxRAMPercentage=75`).
+  Override the whole flag set with `-e JAVA_OPTS='...'`.
+- **Logs** go to stdout (`docker logs`) and to rolling files in `/app/logs`, which Compose
+  keeps in a named volume.
+
 ## API overview
 
 ### Public

@@ -1,0 +1,56 @@
+# Local/standalone stack: the backend plus the MongoDB it depends on.
+# Configuration comes from a .env file in this directory (see .env.example).
+services:
+  backend:
+    build: .
+    image: maddie-west-events-backend:latest
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8081}:8081"
+    environment:
+      PORT: 8081
+      # Overrides the .env value so the app reaches the mongo service, not the host
+      MONGODB_URI: mongodb://mongo:27017/rental-service
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-86400000}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:?GOOGLE_CLIENT_ID is required}
+      COORDINATOR_NOTIFICATION_EMAIL: ${COORDINATOR_NOTIFICATION_EMAIL:?COORDINATOR_NOTIFICATION_EMAIL is required}
+      COORDINATOR_SEED_EMAIL: ${COORDINATOR_SEED_EMAIL:-}
+      COORDINATOR_SEED_NAME: ${COORDINATOR_SEED_NAME:-}
+      SMTP_HOST: ${SMTP_HOST:-mail.smtp2go.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      MAIL_FROM: ${MAIL_FROM:-}
+      VENMO_USERNAME: ${VENMO_USERNAME:-MaddieWestEvents}
+      ADMIN_UI_BASE_URL: ${ADMIN_UI_BASE_URL:-http://localhost:4200}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:4200,http://localhost:5173}
+      R2_ACCOUNT_ID: ${R2_ACCOUNT_ID:-}
+      R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID:-}
+      R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY:-}
+      R2_BUCKET: ${R2_BUCKET:-maddie-west-rentals-dev}
+      R2_PUBLIC_BASE_URL: ${R2_PUBLIC_BASE_URL:-}
+    volumes:
+      # Rolling log files would otherwise die with the container
+      - backend-logs:/app/logs
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  mongo-data:
+  backend-logs:

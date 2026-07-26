@@ -38,6 +38,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/", "/api/items/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/rental-requests", "/api/contact").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
+                        // Container/orchestrator probes cannot authenticate; only health is exposed
+                        .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "COORDINATOR")

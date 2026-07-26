@@ -1,0 +1,30 @@
+# Build output — the image builds the jar itself, a host-built target/ would only
+# poison the build cache (and can carry a jar compiled by a different JDK).
+target/
+
+# Secrets: the container gets its configuration from the environment, never from a
+# baked-in file. Keeping .env out of the build context makes that impossible to fumble.
+.env
+.env.*
+!.env.example
+
+.git/
+.gitignore
+.github/
+
+logs/
+*.log
+
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.claude/
+.settings/
+.classpath
+.project
+
+.DS_Store
+README.md
+HELP.md

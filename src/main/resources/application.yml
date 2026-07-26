@@ -48,6 +48,23 @@ app:
     bucket: ${R2_BUCKET:maddie-west-rentals-dev}
     public-base-url: ${R2_PUBLIC_BASE_URL:}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        # Health only — nothing else should be reachable on an unauthenticated path
+        include: health
+  endpoint:
+    health:
+      show-details: never
+      probes:
+        enabled: true
+  health:
+    # The SMTP relay being unreachable degrades email, but the API is still serving
+    # requests — letting it mark the container unhealthy would cause pointless restarts.
+    mail:
+      enabled: false
+
 springdoc:
   api-docs:
     path: /v3/api-docs
