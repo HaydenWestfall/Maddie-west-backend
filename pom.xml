@@ -23,6 +23,15 @@
         <springdoc.version>2.6.0</springdoc.version>
         <testcontainers.version>1.20.3</testcontainers.version>
         <aws.sdk.version>2.29.29</aws.sdk.version>
+
+        <!--
+          Overrides the versions Spring Boot 3.3.5 pins (Mockito 5.11.0 / Byte Buddy 1.14.19), which
+          cannot instrument classes on JDK 25 and fail with "Mockito cannot mock this class". The
+          project targets Java 21, but developers run newer JDKs, so the test stack has to keep up.
+          Byte Buddy is pinned to the version Mockito 5.23.0 itself depends on.
+        -->
+        <mockito.version>5.23.0</mockito.version>
+        <byte-buddy.version>1.17.7</byte-buddy.version>
     </properties>
 
     <dependencies>

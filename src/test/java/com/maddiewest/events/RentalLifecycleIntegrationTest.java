@@ -29,14 +29,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,13 +44,19 @@ import static org.assertj.core.api.Assertions.assertThat;
  * (availability drops), attempt to over-approve a conflicting request (409), then
  * mark the approved request as paid and confirm the items remain reserved.
  */
-@Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RentalLifecycleIntegrationTest {
 
-    @Container
-    static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:7.0");
+    // Started in a static initializer rather than through @Testcontainers/@Container: under the
+    // PER_CLASS lifecycle JUnit creates the test instance (which loads the Spring context, and with
+    // it @DynamicPropertySource) before the Testcontainers extension's beforeAll callback runs, so
+    // the container would still be stopped when the Mongo URI is resolved. Ryuk stops it at exit.
+    static final MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:7.0");
+
+    static {
+        mongoDBContainer.start();
+    }
 
     @DynamicPropertySource
     static void mongoProperties(DynamicPropertyRegistry registry) {
@@ -230,15 +235,16 @@ class RentalLifecycleIntegrationTest {
         createRequest.setItems(List.of(lineItem));
         createRequest.setDateRange(dateRange);
         createRequest.setRequester(requester);
-        // No agreement set at all -> @NotNull violation -> 400.
-
-        ResponseEntity<ApiResponse<RentalRequestResponse>> response = restTemplate.exchange(
+        // No agreement set at all -> @NotNull violation -> 400. GlobalExceptionHandler answers
+        // validation failures with ApiResponse<Map<field, message>>, not a RentalRequestResponse.
+        ResponseEntity<ApiResponse<Map<String, String>>> response = restTemplate.exchange(
                 baseUrl() + "/api/rental-requests",
                 HttpMethod.POST,
                 new HttpEntity<>(createRequest),
                 new ParameterizedTypeReference<>() {
                 });
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.getBody().getData()).containsKey("agreement");
     }
 
     private int availableQuantity(String itemId, LocalDate startDate, LocalDate endDate) {

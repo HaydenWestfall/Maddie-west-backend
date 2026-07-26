@@ -1,15 +1,24 @@
+# This file shadows src/main/resources/application.yml on the test classpath rather than merging
+# with it, so every property the application requires without a default must be repeated here.
 app:
   jwt:
     secret: test-secret-key-must-be-at-least-32-bytes-long-for-hs256
     expiration-ms: 3600000
+  google:
+    client-id: test-google-client-id.apps.googleusercontent.com
   cors:
     allowed-origins: http://localhost:5173
   mail:
     from: test@maddiewestevents.com
     coordinator-email: coordinator@maddiewestevents.com
+  payment:
+    venmo-username: MaddieWestEventsTest
+  admin:
+    base-url: http://localhost:4200
+  # Left blank so no coordinator is seeded on startup; tests seed their own.
   coordinator-seed:
-    username: testadmin
-    password: testpass123
+    email:
+    name:
 
 spring:
   mail:
