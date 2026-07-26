@@ -1,7 +1,7 @@
-package com.maddiewest.rentalservice.service;
+package com.maddiewest.events.service;
 
-import com.maddiewest.rentalservice.document.RentalItem;
-import com.maddiewest.rentalservice.document.RentalRequestStatus;
+import com.maddiewest.events.document.RentalItem;
+import com.maddiewest.events.document.RentalRequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;

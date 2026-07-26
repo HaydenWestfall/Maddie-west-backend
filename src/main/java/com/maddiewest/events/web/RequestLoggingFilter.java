@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.web;
+package com.maddiewest.events.web;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

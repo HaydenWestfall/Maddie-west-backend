@@ -1,11 +1,11 @@
-package com.maddiewest.rentalservice.dto.response;
+package com.maddiewest.events.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maddiewest.rentalservice.document.AgreementAcknowledgment;
-import com.maddiewest.rentalservice.document.RentalDateRange;
-import com.maddiewest.rentalservice.document.RentalRequestStatus;
-import com.maddiewest.rentalservice.document.RequesterInfo;
-import com.maddiewest.rentalservice.document.StatusHistoryEntry;
+import com.maddiewest.events.document.AgreementAcknowledgment;
+import com.maddiewest.events.document.RentalDateRange;
+import com.maddiewest.events.document.RentalRequestStatus;
+import com.maddiewest.events.document.RequesterInfo;
+import com.maddiewest.events.document.StatusHistoryEntry;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

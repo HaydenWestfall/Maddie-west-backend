@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.dto.response;
+package com.maddiewest.events.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

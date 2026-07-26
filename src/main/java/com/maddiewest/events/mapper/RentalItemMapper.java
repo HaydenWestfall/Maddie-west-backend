@@ -1,9 +1,9 @@
-package com.maddiewest.rentalservice.mapper;
+package com.maddiewest.events.mapper;
 
-import com.maddiewest.rentalservice.document.RentalItem;
-import com.maddiewest.rentalservice.dto.request.RentalItemCreateRequest;
-import com.maddiewest.rentalservice.dto.request.RentalItemUpdateRequest;
-import com.maddiewest.rentalservice.dto.response.RentalItemResponse;
+import com.maddiewest.events.document.RentalItem;
+import com.maddiewest.events.dto.request.RentalItemCreateRequest;
+import com.maddiewest.events.dto.request.RentalItemUpdateRequest;
+import com.maddiewest.events.dto.response.RentalItemResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

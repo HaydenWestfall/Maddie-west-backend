@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.service;
+package com.maddiewest.events.service;
 
 import org.springframework.stereotype.Component;
 

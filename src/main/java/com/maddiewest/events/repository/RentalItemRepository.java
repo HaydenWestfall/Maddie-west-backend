@@ -1,6 +1,6 @@
-package com.maddiewest.rentalservice.repository;
+package com.maddiewest.events.repository;
 
-import com.maddiewest.rentalservice.document.RentalItem;
+import com.maddiewest.events.document.RentalItem;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Collection;

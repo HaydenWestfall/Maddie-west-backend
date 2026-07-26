@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.controller;
+package com.maddiewest.events.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;

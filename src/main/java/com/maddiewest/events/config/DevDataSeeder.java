@@ -1,8 +1,8 @@
-package com.maddiewest.rentalservice.config;
+package com.maddiewest.events.config;
 
-import com.maddiewest.rentalservice.document.RentalItem;
-import com.maddiewest.rentalservice.document.RentalItemMetadata;
-import com.maddiewest.rentalservice.repository.RentalItemRepository;
+import com.maddiewest.events.document.RentalItem;
+import com.maddiewest.events.document.RentalItemMetadata;
+import com.maddiewest.events.repository.RentalItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;

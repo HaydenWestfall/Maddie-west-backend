@@ -1,6 +1,6 @@
-package com.maddiewest.rentalservice.exception;
+package com.maddiewest.events.exception;
 
-import com.maddiewest.rentalservice.dto.response.ApiResponse;
+import com.maddiewest.events.dto.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;

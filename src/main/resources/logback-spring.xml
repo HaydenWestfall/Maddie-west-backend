@@ -14,7 +14,7 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/${appName}.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>logs/${appName}-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxFileSize>50MB</maxFileSize>
             <maxHistory>30</maxHistory>
@@ -27,10 +27,10 @@
 
     <!-- App code is verbose (DEBUG) in the "dev" profile, INFO otherwise -->
     <springProfile name="dev">
-        <logger name="com.maddiewest.rentalservice" level="DEBUG"/>
+        <logger name="com.maddiewest.events" level="DEBUG"/>
     </springProfile>
     <springProfile name="!dev">
-        <logger name="com.maddiewest.rentalservice" level="INFO"/>
+        <logger name="com.maddiewest.events" level="INFO"/>
     </springProfile>
 
     <logger name="org.springframework.web" level="WARN"/>

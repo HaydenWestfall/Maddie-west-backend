@@ -1,9 +1,9 @@
-package com.maddiewest.rentalservice.controller;
+package com.maddiewest.events.controller;
 
-import com.maddiewest.rentalservice.dto.request.GoogleLoginRequest;
-import com.maddiewest.rentalservice.dto.response.ApiResponse;
-import com.maddiewest.rentalservice.dto.response.LoginResponse;
-import com.maddiewest.rentalservice.service.AuthService;
+import com.maddiewest.events.dto.request.GoogleLoginRequest;
+import com.maddiewest.events.dto.response.ApiResponse;
+import com.maddiewest.events.dto.response.LoginResponse;
+import com.maddiewest.events.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;

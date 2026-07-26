@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.security;
+package com.maddiewest.events.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

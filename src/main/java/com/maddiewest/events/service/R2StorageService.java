@@ -1,6 +1,6 @@
-package com.maddiewest.rentalservice.service;
+package com.maddiewest.events.service;
 
-import com.maddiewest.rentalservice.config.R2Properties;
+import com.maddiewest.events.config.R2Properties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,9 @@
-package com.maddiewest.rentalservice.mapper;
+package com.maddiewest.events.mapper;
 
-import com.maddiewest.rentalservice.document.RentalRequest;
-import com.maddiewest.rentalservice.document.RentalRequestLineItem;
-import com.maddiewest.rentalservice.dto.response.RentalRequestLineItemResponse;
-import com.maddiewest.rentalservice.dto.response.RentalRequestResponse;
+import com.maddiewest.events.document.RentalRequest;
+import com.maddiewest.events.document.RentalRequestLineItem;
+import com.maddiewest.events.dto.response.RentalRequestLineItemResponse;
+import com.maddiewest.events.dto.response.RentalRequestResponse;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

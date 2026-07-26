@@ -1,7 +1,7 @@
-package com.maddiewest.rentalservice.config;
+package com.maddiewest.events.config;
 
-import com.maddiewest.rentalservice.document.CoordinatorUser;
-import com.maddiewest.rentalservice.repository.CoordinatorUserRepository;
+import com.maddiewest.events.document.CoordinatorUser;
+import com.maddiewest.events.repository.CoordinatorUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;

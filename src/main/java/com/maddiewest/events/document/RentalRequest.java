@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.document;
+package com.maddiewest.events.document;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

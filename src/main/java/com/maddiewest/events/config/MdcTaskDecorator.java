@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.config;
+package com.maddiewest.events.config;
 
 import org.slf4j.MDC;
 import org.springframework.core.task.TaskDecorator;

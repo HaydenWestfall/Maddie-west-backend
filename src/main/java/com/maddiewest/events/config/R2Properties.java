@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.config;
+package com.maddiewest.events.config;
 
 import lombok.Getter;
 import lombok.Setter;

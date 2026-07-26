@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.dto.request;
+package com.maddiewest.events.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

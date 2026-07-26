@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.dto.response;
+package com.maddiewest.events.dto.response;
 
 /**
  * Response body for the public contact form. Matches the shape returned by the standalone

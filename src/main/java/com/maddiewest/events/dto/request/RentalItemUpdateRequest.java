@@ -1,6 +1,6 @@
-package com.maddiewest.rentalservice.dto.request;
+package com.maddiewest.events.dto.request;
 
-import com.maddiewest.rentalservice.document.RentalItemMetadata;
+import com.maddiewest.events.document.RentalItemMetadata;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;

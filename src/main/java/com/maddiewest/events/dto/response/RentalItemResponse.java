@@ -1,7 +1,7 @@
-package com.maddiewest.rentalservice.dto.response;
+package com.maddiewest.events.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maddiewest.rentalservice.document.RentalItemMetadata;
+import com.maddiewest.events.document.RentalItemMetadata;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

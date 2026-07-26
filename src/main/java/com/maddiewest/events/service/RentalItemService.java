@@ -1,12 +1,12 @@
-package com.maddiewest.rentalservice.service;
+package com.maddiewest.events.service;
 
-import com.maddiewest.rentalservice.document.RentalItem;
-import com.maddiewest.rentalservice.dto.request.RentalItemCreateRequest;
-import com.maddiewest.rentalservice.dto.request.RentalItemUpdateRequest;
-import com.maddiewest.rentalservice.dto.response.RentalItemResponse;
-import com.maddiewest.rentalservice.exception.ResourceNotFoundException;
-import com.maddiewest.rentalservice.mapper.RentalItemMapper;
-import com.maddiewest.rentalservice.repository.RentalItemRepository;
+import com.maddiewest.events.document.RentalItem;
+import com.maddiewest.events.dto.request.RentalItemCreateRequest;
+import com.maddiewest.events.dto.request.RentalItemUpdateRequest;
+import com.maddiewest.events.dto.response.RentalItemResponse;
+import com.maddiewest.events.exception.ResourceNotFoundException;
+import com.maddiewest.events.mapper.RentalItemMapper;
+import com.maddiewest.events.repository.RentalItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

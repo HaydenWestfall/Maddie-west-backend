@@ -1,6 +1,6 @@
-package com.maddiewest.rentalservice.config;
+package com.maddiewest.events.config;
 
-import com.maddiewest.rentalservice.security.JwtAuthenticationFilter;
+import com.maddiewest.events.security.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

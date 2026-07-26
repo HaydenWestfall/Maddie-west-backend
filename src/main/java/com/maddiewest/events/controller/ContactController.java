@@ -1,10 +1,10 @@
-package com.maddiewest.rentalservice.controller;
+package com.maddiewest.events.controller;
 
-import com.maddiewest.rentalservice.dto.request.ContactFormRequest;
-import com.maddiewest.rentalservice.dto.response.ContactFormResponse;
-import com.maddiewest.rentalservice.exception.RateLimitExceededException;
-import com.maddiewest.rentalservice.service.ContactRateLimiter;
-import com.maddiewest.rentalservice.service.EmailNotificationService;
+import com.maddiewest.events.dto.request.ContactFormRequest;
+import com.maddiewest.events.dto.response.ContactFormResponse;
+import com.maddiewest.events.exception.RateLimitExceededException;
+import com.maddiewest.events.service.ContactRateLimiter;
+import com.maddiewest.events.service.EmailNotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

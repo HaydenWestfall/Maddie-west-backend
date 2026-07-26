@@ -1,7 +1,7 @@
-package com.maddiewest.rentalservice.service;
+package com.maddiewest.events.service;
 
-import com.maddiewest.rentalservice.dto.request.ContactFormRequest;
-import com.maddiewest.rentalservice.dto.response.RentalRequestResponse;
+import com.maddiewest.events.dto.request.ContactFormRequest;
+import com.maddiewest.events.dto.response.RentalRequestResponse;
 import jakarta.mail.internet.MimeMessage;
 import java.math.RoundingMode;
 import java.net.URLEncoder;

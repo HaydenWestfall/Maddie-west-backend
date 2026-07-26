@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.exception;
+package com.maddiewest.events.exception;
 
 import lombok.Getter;
 

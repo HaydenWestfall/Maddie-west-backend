@@ -1,10 +1,10 @@
-package com.maddiewest.rentalservice.controller;
+package com.maddiewest.events.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maddiewest.rentalservice.dto.request.ContactFormRequest;
-import com.maddiewest.rentalservice.exception.GlobalExceptionHandler;
-import com.maddiewest.rentalservice.service.ContactRateLimiter;
-import com.maddiewest.rentalservice.service.EmailNotificationService;
+import com.maddiewest.events.dto.request.ContactFormRequest;
+import com.maddiewest.events.exception.GlobalExceptionHandler;
+import com.maddiewest.events.service.ContactRateLimiter;
+import com.maddiewest.events.service.EmailNotificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

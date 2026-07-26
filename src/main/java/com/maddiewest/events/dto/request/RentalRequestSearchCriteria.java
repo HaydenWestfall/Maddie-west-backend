@@ -1,6 +1,6 @@
-package com.maddiewest.rentalservice.dto.request;
+package com.maddiewest.events.dto.request;
 
-import com.maddiewest.rentalservice.document.RentalRequestStatus;
+import com.maddiewest.events.document.RentalRequestStatus;
 import lombok.Builder;
 import lombok.Getter;
 

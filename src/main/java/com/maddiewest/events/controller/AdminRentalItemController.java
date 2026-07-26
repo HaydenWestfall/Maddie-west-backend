@@ -1,11 +1,11 @@
-package com.maddiewest.rentalservice.controller;
+package com.maddiewest.events.controller;
 
-import com.maddiewest.rentalservice.dto.request.RentalItemCreateRequest;
-import com.maddiewest.rentalservice.dto.request.RentalItemUpdateRequest;
-import com.maddiewest.rentalservice.dto.response.ApiResponse;
-import com.maddiewest.rentalservice.dto.response.PaginationMeta;
-import com.maddiewest.rentalservice.dto.response.RentalItemResponse;
-import com.maddiewest.rentalservice.service.RentalItemService;
+import com.maddiewest.events.dto.request.RentalItemCreateRequest;
+import com.maddiewest.events.dto.request.RentalItemUpdateRequest;
+import com.maddiewest.events.dto.response.ApiResponse;
+import com.maddiewest.events.dto.response.PaginationMeta;
+import com.maddiewest.events.dto.response.RentalItemResponse;
+import com.maddiewest.events.service.RentalItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.dto.request;
+package com.maddiewest.events.dto.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;

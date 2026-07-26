@@ -1,7 +1,7 @@
-package com.maddiewest.rentalservice.security;
+package com.maddiewest.events.security;
 
-import com.maddiewest.rentalservice.document.CoordinatorUser;
-import com.maddiewest.rentalservice.repository.CoordinatorUserRepository;
+import com.maddiewest.events.document.CoordinatorUser;
+import com.maddiewest.events.repository.CoordinatorUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

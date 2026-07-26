@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.config;
+package com.maddiewest.events.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

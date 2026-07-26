@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.dto.request;
+package com.maddiewest.events.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import jakarta.validation.constraints.Email;

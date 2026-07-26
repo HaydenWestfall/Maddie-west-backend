@@ -1,13 +1,13 @@
-package com.maddiewest.rentalservice.service;
+package com.maddiewest.events.service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.maddiewest.rentalservice.document.CoordinatorUser;
-import com.maddiewest.rentalservice.dto.request.GoogleLoginRequest;
-import com.maddiewest.rentalservice.dto.response.LoginResponse;
-import com.maddiewest.rentalservice.exception.AdminAccessDeniedException;
-import com.maddiewest.rentalservice.repository.CoordinatorUserRepository;
-import com.maddiewest.rentalservice.security.JwtService;
+import com.maddiewest.events.document.CoordinatorUser;
+import com.maddiewest.events.dto.request.GoogleLoginRequest;
+import com.maddiewest.events.dto.response.LoginResponse;
+import com.maddiewest.events.exception.AdminAccessDeniedException;
+import com.maddiewest.events.repository.CoordinatorUserRepository;
+import com.maddiewest.events.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;

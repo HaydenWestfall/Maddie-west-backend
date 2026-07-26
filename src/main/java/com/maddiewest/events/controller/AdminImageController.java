@@ -1,7 +1,7 @@
-package com.maddiewest.rentalservice.controller;
+package com.maddiewest.events.controller;
 
-import com.maddiewest.rentalservice.dto.response.ApiResponse;
-import com.maddiewest.rentalservice.service.R2StorageService;
+import com.maddiewest.events.dto.response.ApiResponse;
+import com.maddiewest.events.service.R2StorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.controller;
+package com.maddiewest.events.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

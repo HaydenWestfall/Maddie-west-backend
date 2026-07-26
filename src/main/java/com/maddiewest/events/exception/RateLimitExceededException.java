@@ -1,4 +1,4 @@
-package com.maddiewest.rentalservice.exception;
+package com.maddiewest.events.exception;
 
 /**
  * Thrown when a client exceeds the allowed request rate for a public endpoint.
